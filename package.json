@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "prettier": "prettier -u -w --cache"
+  },
+  "dependencies": {
+    "@apollo/client": "3.1.1",
+    "deepmerge": "^4.2.2",
+    "graphql": "^15.3.0",
+    "lodash": "4.17.20",
+    "next": "12.2.2",
+    "prop-types": "^15.6.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  }
+}
