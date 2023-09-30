@@ -1,10 +1,14 @@
 import {gql, useQuery} from '@apollo/client';
 import {initializeApollo, addApolloState} from '../lib/apolloClient';
 
-export default function IndexPage() {
+export default function GraphQLPage() {
   const {
     data: {allSpecies},
-  } = useQuery(ALL_SPECIES_QUERY);
+  } = useQuery(ALL_SPECIES_QUERY, {
+    context: {
+      clientName: 'graphQL',
+    },
+  });
 
   return (
     <ul>
@@ -20,6 +24,9 @@ export async function getServerSideProps() {
 
   await apolloClient.query({
     query: ALL_SPECIES_QUERY,
+    context: {
+      clientName: 'graphQL',
+    },
   });
 
   return addApolloState(apolloClient, {
@@ -28,7 +35,7 @@ export async function getServerSideProps() {
 }
 
 const ALL_SPECIES_QUERY = gql`
-  query allSpeciesQuery {
+  query allSpecies {
     allSpecies {
       edges {
         node {

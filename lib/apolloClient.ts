@@ -1,8 +1,15 @@
 import {useMemo} from 'react';
-import {ApolloClient, HttpLink, InMemoryCache, from} from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  from,
+} from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
 import merge from 'deepmerge';
-import isEqual from 'lodash/isEqual';
+import {isEqual} from 'lodash';
+import {RestLink} from 'apollo-link-rest';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -18,14 +25,20 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const httpLink = new HttpLink({
+const graphQLink = new HttpLink({
   uri: 'https://swapi-graphql.netlify.app/.netlify/functions/index', // Server URL (must be absolute)
 });
+
+const restLink = new RestLink({uri: 'https://swapi.dev/api/'});
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: from([errorLink, httpLink]),
+    link: ApolloLink.split(
+      (operation) => operation.getContext().clientName === 'graphQL',
+      from([graphQLink, errorLink]), //if above
+      from([restLink, errorLink]),
+    ),
     cache: new InMemoryCache(),
   });
 }
