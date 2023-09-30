@@ -5,7 +5,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "prettier": "prettier -u -w --cache"
+    "prettier": "prettier -u -w --cache ."
   },
   "dependencies": {
     "@apollo/client": "3.1.1",
