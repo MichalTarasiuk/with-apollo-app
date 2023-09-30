@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
-let apolloClient;
+let apolloClient: ReturnType<typeof createApolloClient> | undefined;
 
 const errorLink = onError(({graphQLErrors, networkError}) => {
   if (graphQLErrors)
